@@ -41,7 +41,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
     private static final String APP_WITH_DUPE =
         APP_NO_INCLUDE + '\n#include mcp.McpRoomsLib\n#include   mcp.McpRoomsLib\n'
 
-    private static final String RAW = 'https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server'
+    private static final String RAW = 'https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server'
 
     // Full manifest: 1 library bundle + parent app (self) + child app. Locations are
     // pinned to /main (as committed); the tool re-anchors them to the deploy ref.

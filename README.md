@@ -2,7 +2,7 @@
 
 A native [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that runs directly on your Hubitat Elevation hub. Instead of running a separate Node.js server on another machine, this runs natively on the hub itself — with a built-in rule engine and 117 MCP tools (36 on `tools/list` via category gateways).
 
-> **BETA SOFTWARE**: This project is ~99% AI-generated ("vibe coded") using Claude. It's a work in progress — contributions and [bug reports](https://github.com/kingpanther13/Hubitat-local-MCP-server/issues) are welcome!
+> **BETA SOFTWARE**: This project is ~99% AI-generated ("vibe coded") using Claude. It's a work in progress — contributions and [bug reports](https://github.com/hansenjacobs/Hubitat-local-MCP-server/issues) are welcome!
 
 ## What Is This?
 
@@ -47,7 +47,7 @@ That's it! HPM will install the parent app, the child app, and the required Groo
 
 > **Alternate HPM method**: You can also use HPM > **Install** > **From a URL** and paste:
 > ```
-> https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/packageManifest.json
+> https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/packageManifest.json
 > ```
 
 ### Option B: Manual Installation
@@ -58,7 +58,7 @@ The parent app `#include`s Groovy **libraries**, which are all shipped together 
 
 In the Hubitat web UI go to **Bundles** > **Import**, and import the bundle from this repo:
    ```
-   https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/bundles/mcp-libraries.zip
+   https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/bundles/mcp-libraries.zip
    ```
    If your hub's Bundle Manager only accepts a file upload, download that `.zip` first and upload it. Importing the bundle installs **every** library the app needs in one step (they appear under **Libraries Code**) — there's no need to add libraries individually. (HPM / Option A does this automatically.)
 
@@ -66,7 +66,7 @@ In the Hubitat web UI go to **Bundles** > **Import**, and import the bundle from
 1. Go to Hubitat web UI > **Apps Code** > **+ New App**
 2. Click **Import** and paste this URL:
    ```
-   https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/hubitat-mcp-server.groovy
+   https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/hubitat-mcp-server.groovy
    ```
 3. Click **Import** > **OK** > **Save**
 4. Click **OAuth** > **Enable OAuth in App** > **Save**
@@ -75,7 +75,7 @@ In the Hubitat web UI go to **Bundles** > **Import**, and import the bundle from
 1. Go to **Apps Code** > **+ New App**
 2. Click **Import** and paste this URL:
    ```
-   https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/hubitat-mcp-rule.groovy
+   https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/hubitat-mcp-rule.groovy
    ```
 3. Click **Import** > **OK** > **Save**
 4. (No OAuth needed for the child app)
@@ -985,7 +985,7 @@ For easier bug reporting:
 1. Set debug log level: Settings > MCP Debug Log Level > "Debug", or ask your AI to `hub_set_log_level` to "debug"
 2. Reproduce the issue
 3. Ask your AI to use the `hub_report_issue` tool — it will gather diagnostics and format a ready-to-submit report
-4. Submit at [GitHub Issues](https://github.com/kingpanther13/Hubitat-local-MCP-server/issues)
+4. Submit at [GitHub Issues](https://github.com/hansenjacobs/Hubitat-local-MCP-server/issues)
 
 </details>
 

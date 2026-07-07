@@ -10,7 +10,7 @@
 definition(
     name: "MCP Rule",
     namespace: "mcp",
-    author: "kingpanther13",
+    author: "hansenjacobs",
     description: "Individual automation rule for MCP Rule Server",
     category: "Automation",
     parent: "mcp:MCP Rule Server",

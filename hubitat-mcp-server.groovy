@@ -20,7 +20,7 @@
 definition(
     name: "MCP Rule Server",
     namespace: "mcp",
-    author: "kingpanther13",
+    author: "hansenjacobs",
     description: "MCP Server with Custom Rule Engine for Hubitat",
     category: "Automation",
     iconUrl: "",
@@ -140,7 +140,7 @@ def mainPage() {
                 paragraph "<b>App ID:</b> ${app.id}"
                 paragraph "<b>Version:</b> ${currentVersion()}"
                 if (state.updateCheck?.updateAvailable) {
-                    paragraph "<b style='color: orange;'>&#9888; Update available: v${state.updateCheck.latestVersion}</b> (you have v${currentVersion()}). Update via <a href='https://github.com/kingpanther13/Hubitat-local-MCP-server' target='_blank'>GitHub</a> or Hubitat Package Manager."
+                    paragraph "<b style='color: orange;'>&#9888; Update available: v${state.updateCheck.latestVersion}</b> (you have v${currentVersion()}). Update via <a href='https://github.com/hansenjacobs/Hubitat-local-MCP-server' target='_blank'>GitHub</a> or Hubitat Package Manager."
                 }
                 href name: "regenerateToken", page: "confirmRegenerateTokenPage",
                      title: "Regenerate access token",
