@@ -1,4 +1,4 @@
-library(name: "McpVariablesLib", namespace: "mcp", author: "kingpanther13", description: "Hub variable + connector tool implementations (list/get/set/create/delete variables, connectors, change history) plus the variable event-subscription handlers for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
+library(name: "McpVariablesLib", namespace: "mcpowl", author: "kingpanther13", description: "Hub variable + connector tool implementations (list/get/set/create/delete variables, connectors, change history) plus the variable event-subscription handlers for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
 
 private void _refreshHubVarInUseRegistrations() {
     Set<String> currentVars = [] as Set

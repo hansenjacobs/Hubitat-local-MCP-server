@@ -36,8 +36,8 @@ set -euo pipefail
 
 # The MCP server app's Apps Code CLASS id (resolved by namespace+name). The watchdog's restore targets
 # this CODE CLASS id, NOT the running instance id the main-server MCP URL carries.
-APP_NAMESPACE="mcp"
-APP_NAME="MCP Rule Server"
+APP_NAMESPACE="mcpowl"
+APP_NAME="MCP Rule Server Owl"
 
 WATCHDOG_NAME="E2E Dead-Man Watchdog v2"
 WATCHDOG_SOURCE_URL="${PR_RAW_BASE}/${PR_HEAD_SHA_RESOLVED}/e2e-deadman-watchdog-v2.groovy"
@@ -255,9 +255,9 @@ if [ -n "${MAIN_CHARS:-}" ] && [ -n "${MAIN_SOURCE_URL:-}" ] && [ -n "${MAIN_SHA
   # the workflow env (MAIN_SOURCE_URL/MAIN_CHARS); each child's URL is re-anchored from main's
   # manifest and its char count measured by a CI-side fetch (the restore's landing assert).
   MAIN_CHILD_APPS_JSON="[]"
-  MAIN_CHILD_RECS=$(printf '%s' "$MAIN_PKG_MANIFEST" | jq -r     '.apps[]? | select(.namespace == "mcp" and .name != "MCP Rule Server") | "\(.namespace)	\(.name)	\(.location)"' 2>/dev/null || true)
+  MAIN_CHILD_RECS=$(printf '%s' "$MAIN_PKG_MANIFEST" | jq -r     '.apps[]? | select(.namespace == "mcpowl" and .name != "MCP Rule Server Owl") | "\(.namespace)	\(.name)	\(.location)"' 2>/dev/null || true)
   if [ -z "$MAIN_CHILD_RECS" ]; then
-    echo "::error::e2e HALT: main's packageManifest.json declared no non-server mcp app, but the package ships a child app (mcp:MCP Rule). Filter/manifest drift -- refusing to arm a partial restore manifest."
+    echo "::error::e2e HALT: main's packageManifest.json declared no non-server mcpowl app, but the package ships a child app (mcpowl:MCP Rule Owl). Filter/manifest drift -- refusing to arm a partial restore manifest."
     exit 1
   fi
   while IFS=$'	' read -r C_NS C_NAME C_LOC; do
@@ -310,7 +310,7 @@ fi
 # block), so the ~64000-char head fetched in 3a (APP_SRC_CHUNK) carries all of them -- no full-file read.
 echo "Parsing #include directives from the app source head..."
 APP_FULL_SRC="$APP_SRC_CHUNK"
-# tokens like:  #include mcp.McpSomeLib   -> "mcp.McpSomeLib"
+# tokens like:  #include mcpowl.McpSomeLib   -> "mcpowl.McpSomeLib"
 mapfile -t INCLUDE_TOKENS < <(printf '%s\n' "$APP_FULL_SRC" \
   | grep -oE '^[[:space:]]*#include[[:space:]]+[A-Za-z0-9_]+\.[A-Za-z0-9_]+' \
   | sed -E 's/^[[:space:]]*#include[[:space:]]+//' \
@@ -384,10 +384,10 @@ if [ "${#MISSING_TOKENS[@]}" -gt 0 ]; then
 fi
 echo "All ${#INCLUDE_TOKENS[@]} #include'd libraries recorded (delivered by the bundle at restore)."
 
-# 3e) Resolve the CHILD app class id (mcp:MCP Rule). Full HPM repair redeploys EVERY manifest app,
+# 3e) Resolve the CHILD app class id (mcpowl:MCP Rule Owl). Full HPM repair redeploys EVERY manifest app,
 # so the restore must install the child too; its URL + expected chars were recorded in 2c-ii.
-CHILD_NAMESPACE="mcp"
-CHILD_NAME="MCP Rule"
+CHILD_NAMESPACE="mcpowl"
+CHILD_NAME="MCP Rule Owl"
 CHILD_CLASS_ID=$(echo "$LIST_TEXT" | jq -r --arg ns "$CHILD_NAMESPACE" --arg name "$CHILD_NAME"   '.apps[]? | select(.namespace == $ns and .name == $name) | .id' | head -n1)
 if [ -z "$CHILD_CLASS_ID" ] || [ "$CHILD_CLASS_ID" = "null" ]; then
   echo "::error::e2e HALT: child Apps Code class for $CHILD_NAMESPACE:$CHILD_NAME not found via hub_list_apps -- full repair redeploys it, so its restore target must resolve. Refusing to arm."

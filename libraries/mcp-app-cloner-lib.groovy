@@ -1,4 +1,4 @@
-library(name: "McpAppClonerLib", namespace: "mcp", author: "kingpanther13", description: "Native-app cloner tool implementations (hub_clone_native_app/hub_export_native_app/hub_import_native_app) plus the backup-restore primitive built on them for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
+library(name: "McpAppClonerLib", namespace: "mcpowl", author: "kingpanther13", description: "Native-app cloner tool implementations (hub_clone_native_app/hub_export_native_app/hub_import_native_app) plus the backup-restore primitive built on them for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
 
 private Map _appClonerInit(Integer sourceAppId) {
     def resp

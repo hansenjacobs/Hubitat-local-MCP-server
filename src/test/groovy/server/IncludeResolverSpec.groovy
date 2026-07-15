@@ -106,7 +106,7 @@ class IncludeResolverSpec extends Specification {
         given: 'the actual checked-in Rooms library -- first real module of the issue #209 split'
         def realLibs = new File('libraries')
         assert realLibs.isDirectory(), "expected the repo 'libraries' dir relative to cwd ${new File('.').absolutePath} -- run from the repo root"
-        def src = "#include mcp.McpRoomsLib\n"
+        def src = "#include mcpowl.McpRoomsLib\n"
 
         when:
         def out = IncludeResolver.resolve(src, realLibs)
@@ -122,7 +122,7 @@ class IncludeResolverSpec extends Specification {
         given: 'the actual checked-in bundle library -- impl AND tool definitions live with it (Level 2)'
         def realLibs = new File('libraries')
         assert realLibs.isDirectory(), "expected the repo 'libraries' dir relative to cwd ${new File('.').absolutePath} -- run from the repo root"
-        def src = "#include mcp.McpBundlesLib\n"
+        def src = "#include mcpowl.McpBundlesLib\n"
 
         when:
         def out = IncludeResolver.resolve(src, realLibs)
@@ -141,7 +141,7 @@ class IncludeResolverSpec extends Specification {
         given: 'the actual checked-in Visual Rules library -- impl AND tool definitions live with it'
         def realLibs = new File('libraries')
         assert realLibs.isDirectory(), "expected the repo 'libraries' dir relative to cwd ${new File('.').absolutePath} -- run from the repo root"
-        def src = "#include mcp.McpVisualRulesLib\n"
+        def src = "#include mcpowl.McpVisualRulesLib\n"
 
         when:
         def out = IncludeResolver.resolve(src, realLibs)
@@ -159,7 +159,7 @@ class IncludeResolverSpec extends Specification {
         given: 'every domain library of the #209 full split resolves with impls, def chunk, and display-meta part'
         def realLibs = new File('libraries')
         assert realLibs.isDirectory(), "expected the repo 'libraries' dir relative to cwd ${new File('.').absolutePath} -- run from the repo root"
-        def src = "#include mcp.${libName}\n"
+        def src = "#include mcpowl.${libName}\n"
 
         when:
         def out = IncludeResolver.resolve(src, realLibs)

@@ -2,7 +2,7 @@
 
 A native [Model Context Protocol (MCP)](https://modelcontextprotocol.io/) server that runs directly on your Hubitat Elevation hub. Instead of running a separate Node.js server on another machine, this runs natively on the hub itself — with a built-in rule engine and 117 MCP tools (36 on `tools/list` via category gateways).
 
-> **BETA SOFTWARE**: This project is ~99% AI-generated ("vibe coded") using Claude. It's a work in progress — contributions and [bug reports](https://github.com/kingpanther13/Hubitat-local-MCP-server/issues) are welcome!
+> **BETA SOFTWARE**: This project is ~99% AI-generated ("vibe coded") using Claude. It's a work in progress — contributions and [bug reports](https://github.com/hansenjacobs/Hubitat-local-MCP-server/issues) are welcome!
 
 ## What Is This?
 
@@ -41,32 +41,32 @@ Once HPM is installed:
 
 1. Open HPM > **Install**
 2. Search for **"MCP"**
-3. Select **MCP Rule Server** and install
+3. Select **MCP Rule Server Owl** and install
 
 That's it! HPM will install the parent app, the child app, and the required Groovy **libraries** (delivered as a bundle, shown under **Libraries Code**) automatically in the same install/update, and notify you when updates are available.
 
 > **Alternate HPM method**: You can also use HPM > **Install** > **From a URL** and paste:
 > ```
-> https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/packageManifest.json
+> https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/packageManifest.json
 > ```
 
 ### Option B: Manual Installation
 
-The parent app `#include`s Groovy **libraries**, which are all shipped together in one **bundle** (`mcp-libraries.zip`). Install that bundle **first** — otherwise the parent app fails to compile when you Save it. Install in this order: the libraries bundle, then the parent app, then the child app.
+The parent app `#include`s Groovy **libraries**, which are all shipped together in one **bundle** (`mcp-libraries-owl.zip`). Install that bundle **first** — otherwise the parent app fails to compile when you Save it. Install in this order: the Owl libraries bundle, then the Owl parent app, then the Owl child app.
 
 **1. Install the libraries bundle:**
 
 In the Hubitat web UI go to **Bundles** > **Import**, and import the bundle from this repo:
    ```
-   https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/bundles/mcp-libraries.zip
+   https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/bundle-artifacts/branches/main/mcp-libraries-owl.zip
    ```
    If your hub's Bundle Manager only accepts a file upload, download that `.zip` first and upload it. Importing the bundle installs **every** library the app needs in one step (they appear under **Libraries Code**) — there's no need to add libraries individually. (HPM / Option A does this automatically.)
 
-**2. Install the Parent App (MCP Rule Server):**
+**2. Install the Parent App (MCP Rule Server Owl):**
 1. Go to Hubitat web UI > **Apps Code** > **+ New App**
 2. Click **Import** and paste this URL:
    ```
-   https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/hubitat-mcp-server.groovy
+   https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/hubitat-mcp-server.groovy
    ```
 3. Click **Import** > **OK** > **Save**
 4. Click **OAuth** > **Enable OAuth in App** > **Save**
@@ -75,7 +75,7 @@ In the Hubitat web UI go to **Bundles** > **Import**, and import the bundle from
 1. Go to **Apps Code** > **+ New App**
 2. Click **Import** and paste this URL:
    ```
-   https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/hubitat-mcp-rule.groovy
+   https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/hubitat-mcp-rule.groovy
    ```
 3. Click **Import** > **OK** > **Save**
 4. (No OAuth needed for the child app)
@@ -84,7 +84,7 @@ In the Hubitat web UI go to **Bundles** > **Import**, and import the bundle from
 
 ### 1. Add the App
 
-1. Go to **Apps** > **+ Add User App** > **MCP Rule Server**
+1. Go to **Apps** > **+ Add User App** > **MCP Rule Server Owl**
 2. Select devices you want accessible via MCP
 3. Click **Done**
 4. Open the app to see your endpoint URLs and manage rules

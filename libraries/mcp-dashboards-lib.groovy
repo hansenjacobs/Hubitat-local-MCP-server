@@ -1,4 +1,4 @@
-library(name: "McpDashboardsLib", namespace: "mcp", author: "kingpanther13", description: "Dashboard CRUD tools (list/get/create/update/delete/clone) covering Easy Dashboards and legacy Hubitat® Dashboards for the MCP Rule Server.")
+library(name: "McpDashboardsLib", namespace: "mcpowl", author: "kingpanther13", description: "Dashboard CRUD tools (list/get/create/update/delete/clone) covering Easy Dashboards and legacy Hubitat® Dashboards for the MCP Rule Server.")
 
 def toolListDashboards(args = null) {
     args = args ?: [:]

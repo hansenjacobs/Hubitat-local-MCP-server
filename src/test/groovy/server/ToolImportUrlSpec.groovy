@@ -813,7 +813,7 @@ class ToolImportUrlSpec extends ToolSpecBase {
         atomicStateMap.lastSelfDeploy = null
         stubHttpGet(200, 'other-app-source')
         // app.id is 1; the self CLASS id resolves to 178. appId 42 matches neither -> not a self-update.
-        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcp","name":"MCP Rule Server"}]' }
+        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcpowl","name":"MCP Rule Server Owl"}]' }
         hubGet.register('/app/ajax/code') { params -> '{"status":"ok","source":"old","version":5}' }
         script.metaClass.hubInternalPostJson = { String path, String body ->
             [success: true]
@@ -837,7 +837,7 @@ class ToolImportUrlSpec extends ToolSpecBase {
         settingsMap.enableDeveloperMode = true
         atomicStateMap.lastSelfDeploy = null
         stubHttpGet(200, 'class-id-self-source')
-        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcp","name":"MCP Rule Server"}]' }
+        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcpowl","name":"MCP Rule Server Owl"}]' }
         hubGet.register('/app/ajax/code') { params -> '{"status":"ok","source":"old","version":5}' }
         script.metaClass.hubInternalPostJson = { String path, String body ->
             [success: false, message: 'name cannot be empty in definition section']

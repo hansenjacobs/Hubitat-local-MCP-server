@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the HPM bundle ZIP for the MCP Rule Server's #include libraries (issue #209).
 
-Produces bundles/mcp-libraries.zip in the layout Hubitat's Bundle Manager
+Produces bundles/mcp-libraries-owl.zip in the layout Hubitat's Bundle Manager
 expects (the format proven in production by level99/Hubitat-VeSync, which
 migrated to bundles[] after the older libraries[] manifest array silently
 dropped libraries on HPM update):
@@ -21,7 +21,7 @@ install.txt / update.txt declare the namespace, the bundle name, then one
 
 On HPM install/update the hub extracts each .groovy into Libraries Code under
 the declared namespace + name, making each resolvable via its `#include`
-(e.g. `#include mcp.McpRoomsLib`).
+(e.g. `#include mcpowl.McpRoomsLib`).
 
 Hosting: delivery is UNIFIED on the bundle-artifacts branch, fed by
 publish-bundle-artifact.yml on every push (branches/<branch>/ + shas/<sha>/
@@ -45,10 +45,10 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LIB_DIR = REPO_ROOT / "libraries"
 OUTPUT_DIR = REPO_ROOT / "bundles"
-OUTPUT_ZIP = OUTPUT_DIR / "mcp-libraries.zip"
+OUTPUT_ZIP = OUTPUT_DIR / "mcp-libraries-owl.zip"
 
-NAMESPACE = "mcp"
-BUNDLE_NAME = "mcp_libraries"
+NAMESPACE = "mcpowl"
+BUNDLE_NAME = "mcp_libraries_owl"
 
 LIBS = [
     {
