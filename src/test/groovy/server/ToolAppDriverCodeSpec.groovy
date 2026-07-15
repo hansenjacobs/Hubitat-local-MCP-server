@@ -2008,7 +2008,7 @@ class ToolAppDriverCodeSpec extends ToolSpecBase {
         // guard would miss this and let a self-OAuth (which would break the live /mcp token) through.
         given:
         enableWrite()
-        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcp","name":"MCP Rule Server"}]' }
+        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcpowl","name":"MCP Rule Server Owl"}]' }
 
         when:
         script.toolUpdateAppCode([appId: '178', oauth: [enabled: true], confirm: true])
@@ -3791,7 +3791,7 @@ class ToolAppDriverCodeSpec extends ToolSpecBase {
             'app_178': [type: 'app', id: '178', fileName: 'mcp-backup-app-178.groovy',
                         version: 4, timestamp: 1_234_000_000_000L, sourceLength: 50]
         ]
-        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcp","name":"MCP Rule Server"}]' }
+        hubGet.register('/hub2/userAppTypes') { params -> '[{"id":178,"namespace":"mcpowl","name":"MCP Rule Server Owl"}]' }
         script.metaClass.downloadHubFile = { String fileName -> 'self backup source'.getBytes('UTF-8') }
         hubGet.register('/app/ajax/code') { params ->
             '{"status": "ok", "version": 9, "source": "current self source"}'

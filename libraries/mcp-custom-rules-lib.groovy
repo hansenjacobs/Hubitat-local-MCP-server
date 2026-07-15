@@ -1,4 +1,4 @@
-library(name: "McpCustomRulesLib", namespace: "mcp", author: "kingpanther13", description: "Legacy custom-rule engine parent-side tool implementations (get/create/update/delete/test/export/import/clone custom rules) for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
+library(name: "McpCustomRulesLib", namespace: "mcpowl", author: "kingpanther13", description: "Legacy custom-rule engine parent-side tool implementations (get/create/update/delete/test/export/import/clone custom rules) for the MCP Rule Server Owl; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
 
 def toolListRules(args = null) {
     def childApps = getChildApps()
@@ -87,7 +87,7 @@ def toolCreateRule(args) {
 
     // Create child app
     mcpLog("debug", "server", "Creating child app for rule '${args.name}'")
-    def childApp = addChildApp("mcp", "MCP Rule", args.name.trim())
+    def childApp = addChildApp("mcpowl", "MCP Rule Owl", args.name.trim())
     def ruleId = childApp.id.toString()
     mcpLog("debug", "server", "Child app created with ID: ${ruleId}", ruleId)
 

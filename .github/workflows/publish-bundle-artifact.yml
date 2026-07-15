@@ -3,8 +3,8 @@ name: Publish bundle artifact
 # stores it on the bot-only `bundle-artifacts` branch, keyed by branch name AND full
 # commit SHA:
 #
-#   branches/<branch>/mcp-libraries.zip (+ .size marker)
-#   shas/<full-sha>/mcp-libraries.zip   (+ .size marker)
+#   branches/<branch>/mcp-libraries-owl.zip (+ .size marker)
+#   shas/<full-sha>/mcp-libraries-owl.zip   (+ .size marker)
 #
 # packageManifest.json's bundles[].location points at branches/main/ -- HPM users
 # install from this branch. The e2e deploy installs the PR's shas/<sha>/ entry (byte-
@@ -47,7 +47,7 @@ jobs:
         run: |
           set -euo pipefail
           python tools/build-bundle.py
-          ZIP=bundles/mcp-libraries.zip
+          ZIP=bundles/mcp-libraries-owl.zip
           BYTES=$(wc -c < "$ZIP" | tr -d '[:space:]')
           BASENAME=$(basename "$ZIP")
 

@@ -1,4 +1,4 @@
-library(name: "McpDebugLoggingLib", namespace: "mcp", author: "kingpanther13", description: "MCP debug-log + bug-report tool implementations (hub_get_debug_logs/hub_delete_debug_logs/hub_set_log_level/hub_report_issue) for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
+library(name: "McpDebugLoggingLib", namespace: "mcpowl", author: "kingpanther13", description: "MCP debug-log + bug-report tool implementations (hub_get_debug_logs/hub_delete_debug_logs/hub_set_log_level/hub_report_issue) for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
 
 def toolGetDebugLogs(args) {
     initDebugLogs()
@@ -344,7 +344,7 @@ private String _bugReportSuggestedTitle(args, String issueType) {
 
 private String _bugReportSubmitUrl(String issueType, String suggestedTitle) {
     def template = ["bug": "bug_report.yml", "enhancement": "enhancement.yml", "agent_behavior": "agent_behavior.yml"][issueType]
-    def base = "https://github.com/kingpanther13/Hubitat-local-MCP-server/issues/new"
+    def base = "https://github.com/hansenjacobs/Hubitat-local-MCP-server/issues/new"
     def encodedTitle = URLEncoder.encode(suggestedTitle ?: "", "UTF-8")
     return "${base}?template=${template}&title=${encodedTitle}"
 }

@@ -1,5 +1,5 @@
 /**
- * MCP Rule - Child App
+ * MCP Rule Owl - Child App
  *
  * Individual automation rule with isolated settings.
  * Each rule is a separate child app instance.
@@ -8,12 +8,12 @@
  */
 
 definition(
-    name: "MCP Rule",
-    namespace: "mcp",
+    name: "MCP Rule Owl",
+    namespace: "mcpowl",
     author: "kingpanther13",
-    description: "Individual automation rule for MCP Rule Server",
+    description: "Individual automation rule for MCP Rule Server Owl",
     category: "Automation",
-    parent: "mcp:MCP Rule Server",
+    parent: "mcpowl:MCP Rule Server Owl",
     singleThreaded: true,
     iconUrl: "",
     iconX2Url: ""

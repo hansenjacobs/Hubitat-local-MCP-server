@@ -1,4 +1,4 @@
-library(name: "McpSystemLib", namespace: "mcp", author: "kingpanther13", description: "Hub system tool implementations (hub info/modes/HSM/backup/reboot/shutdown/firmware-update) for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
+library(name: "McpSystemLib", namespace: "mcpowl", author: "kingpanther13", description: "Hub system tool implementations (hub info/modes/HSM/backup/reboot/shutdown/firmware-update) for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
 
 // /hub2/hubData is the data the modern hub UI computes server-side. It carries the hub's OWN
 // authoritative health alerts plus the pending-platform-update flag (what the UI "bell" reads) --
@@ -787,7 +787,7 @@ def checkForUpdate() {
 def doUpdateCheck() {
     try {
         def params = [
-            uri: "https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server/main/packageManifest.json",
+            uri: "https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server/main/packageManifest.json",
             contentType: "application/json",
             timeout: 30
         ]

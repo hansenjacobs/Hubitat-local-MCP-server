@@ -12,7 +12,7 @@ import support.ToolSpecBase
  *   fetch app source at ref (parse #includes for the coverage guard) -> fetch
  *   packageManifest.json at ref -> re-anchor each bundle/app location to the ref ->
  *   install every manifest bundle FIRST (override) -> deploy every manifest app,
- *   the SELF app (mcp / "MCP Rule Server") LAST so its recompile (which drops the
+ *   the SELF app (mcp / "MCP Rule Server Owl") LAST so its recompile (which drops the
  *   in-flight response, #237) is the final act.
  *
  * The load-bearing guarantee under test: a package failure must never cost the main
@@ -35,28 +35,28 @@ import support.ToolSpecBase
 class ToolUpdatePackageSpec extends ToolSpecBase {
 
     private static final String APP_NO_INCLUDE =
-        'definition(name: "MCP Rule Server", namespace: "mcp")\n\ndef foo() { return 1 }\n'
+        'definition(name: "MCP Rule Server Owl", namespace: "mcpowl")\n\ndef foo() { return 1 }\n'
     private static final String APP_WITH_INCLUDE =
-        APP_NO_INCLUDE + '\n#include mcp.McpRoomsLib\n'
+        APP_NO_INCLUDE + '\n#include mcpowl.McpRoomsLib\n'
     private static final String APP_WITH_DUPE =
-        APP_NO_INCLUDE + '\n#include mcp.McpRoomsLib\n#include   mcp.McpRoomsLib\n'
+        APP_NO_INCLUDE + '\n#include mcpowl.McpRoomsLib\n#include   mcpowl.McpRoomsLib\n'
 
-    private static final String RAW = 'https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server'
+    private static final String RAW = 'https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server'
 
     // Full manifest: 1 library bundle + parent app (self) + child app. Locations are
     // pinned to /main (as committed); the tool re-anchors them to the deploy ref.
     private static String manifest(List bundles, List apps) {
-        groovy.json.JsonOutput.toJson([packageName: 'MCP Rule Server', bundles: bundles, apps: apps])
+        groovy.json.JsonOutput.toJson([packageName: 'MCP Rule Server Owl', bundles: bundles, apps: apps])
     }
     // Unified-delivery manifest shape: the bundle lives on the bundle-artifacts branch.
     private static final List BUNDLE_LIBS =
-        [[name: 'MCP Rule Server Libraries', namespace: 'mcp', location: "${RAW}/bundle-artifacts/branches/main/mcp-libraries.zip".toString(), required: true]]
+        [[name: 'MCP Rule Server Libraries Owl', namespace: 'mcpowl', location: "${RAW}/bundle-artifacts/branches/main/mcp-libraries-owl.zip".toString(), required: true]]
     // Legacy (pre-unification) manifest shape: in-tree committed zip -- old refs still carry this.
     private static final List BUNDLE_LIBS_LEGACY =
-        [[name: 'MCP Rule Server Libraries', namespace: 'mcp', location: "${RAW}/main/bundles/mcp-libraries.zip".toString(), required: true]]
+        [[name: 'MCP Rule Server Libraries Owl', namespace: 'mcpowl', location: "${RAW}/main/bundles/mcp-libraries-owl.zip".toString(), required: true]]
     private static final List APPS_BOTH = [
-        [name: 'MCP Rule Server', namespace: 'mcp', location: "${RAW}/main/hubitat-mcp-server.groovy".toString(), required: true, primary: true],
-        [name: 'MCP Rule', namespace: 'mcp', location: "${RAW}/main/hubitat-mcp-rule.groovy".toString(), required: true, primary: false]
+        [name: 'MCP Rule Server Owl', namespace: 'mcpowl', location: "${RAW}/main/hubitat-mcp-server.groovy".toString(), required: true, primary: true],
+        [name: 'MCP Rule Owl', namespace: 'mcpowl', location: "${RAW}/main/hubitat-mcp-rule.groovy".toString(), required: true, primary: false]
     ]
     private static final String MANIFEST_FULL = manifest(BUNDLE_LIBS, APPS_BOTH)
     private static final String MANIFEST_NO_BUNDLE = manifest([], APPS_BOTH)
@@ -105,8 +105,8 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
     private void registerAppTypes() {
         hubGet.register('/hub2/userAppTypes') { params ->
             groovy.json.JsonOutput.toJson([
-                [id: '228', name: 'MCP Rule Server', namespace: 'mcp'],
-                [id: '230', name: 'MCP Rule', namespace: 'mcp'],
+                [id: '228', name: 'MCP Rule Server Owl', namespace: 'mcpowl'],
+                [id: '230', name: 'MCP Rule Owl', namespace: 'mcpowl'],
                 [id: '999', name: 'Some Other App', namespace: 'other']
             ])
         }
@@ -202,21 +202,21 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         result.success == true
         result.dryRun == true
         result.ref == 'feat/x'
-        result.includes == ['mcp.McpRoomsLib']
+        result.includes == ['mcpowl.McpRoomsLib']
 
         and: 'one bundle: no per-ref artifact in this stub world, so the plan falls back to the manifest-current branches/main zip'
         result.plannedBundles.size() == 1
-        result.plannedBundles[0].url == "${RAW}/bundle-artifacts/branches/main/mcp-libraries.zip".toString()
+        result.plannedBundles[0].url == "${RAW}/bundle-artifacts/branches/main/mcp-libraries-owl.zip".toString()
         result.plannedBundles[0].source == 'manifest-current'
 
         and: 'both apps planned, class ids resolved, self flagged, urls re-anchored to the ref'
         result.plannedApps.size() == 2
         def self = result.plannedApps.find { it.isSelf }
         def child = result.plannedApps.find { !it.isSelf }
-        self.name == 'MCP Rule Server'
+        self.name == 'MCP Rule Server Owl'
         self.classId == '228'
         self.url.endsWith('/feat/x/hubitat-mcp-server.groovy')
-        child.name == 'MCP Rule'
+        child.name == 'MCP Rule Owl'
         child.classId == '230'
         child.url.endsWith('/feat/x/hubitat-mcp-rule.groovy')
 
@@ -261,7 +261,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         result.success == true
         result.aborted != true
         result.bundles[0].source == 'bundle-artifacts'
-        result.bundles[0].url == "${RAW}/bundle-artifacts/shas/${fullSha}/mcp-libraries.zip".toString()
+        result.bundles[0].url == "${RAW}/bundle-artifacts/shas/${fullSha}/mcp-libraries-owl.zip".toString()
     }
 
     def "baseUrl override drives URL construction and strips a trailing slash"() {
@@ -273,7 +273,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         def result = script.toolUpdatePackage([ref: 'main', dryRun: true, baseUrl: 'https://example.com/raw/'])
 
         then: 'the manifest is read from the override; APP urls re-anchor to it, while the artifact-shaped bundle keeps the manifest LITERAL location (the authoritative user-facing URL)'
-        result.plannedBundles[0].url == "${RAW}/bundle-artifacts/branches/main/mcp-libraries.zip".toString()
+        result.plannedBundles[0].url == "${RAW}/bundle-artifacts/branches/main/mcp-libraries-owl.zip".toString()
         result.plannedApps.find { it.isSelf }.url == 'https://example.com/raw/main/hubitat-mcp-server.groovy'
         result.plannedApps.find { !it.isSelf }.url == 'https://example.com/raw/main/hubitat-mcp-rule.groovy'
     }
@@ -284,8 +284,8 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         given:
         enableDev()
         hubGet.register('/hub2/userAppTypes') { params ->
-            // Parent resolves but the child ("MCP Rule") is missing.
-            groovy.json.JsonOutput.toJson([[id: '228', name: 'MCP Rule Server', namespace: 'mcp']])
+            // Parent resolves but the child ("MCP Rule Owl") is missing.
+            groovy.json.JsonOutput.toJson([[id: '228', name: 'MCP Rule Server Owl', namespace: 'mcpowl']])
         }
         def calls = []
         script.metaClass.toolInstallBundle = { a -> calls << 'bundle'; [success: true] }
@@ -385,8 +385,8 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         registerAppTypes()
         // The child app's location is malformed -> _reanchorToRef null -> app_class_unresolved abort.
         def apps = [
-            [name: 'MCP Rule Server', namespace: 'mcp', location: "${RAW}/main/hubitat-mcp-server.groovy".toString(), required: true],
-            [name: 'MCP Rule', namespace: 'mcp', location: 'garbage', required: true]
+            [name: 'MCP Rule Server Owl', namespace: 'mcpowl', location: "${RAW}/main/hubitat-mcp-server.groovy".toString(), required: true],
+            [name: 'MCP Rule Owl', namespace: 'mcpowl', location: 'garbage', required: true]
         ]
         nextManifestBody = manifest(BUNDLE_LIBS, apps)
         def calls = []
@@ -441,7 +441,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         calls == ['bundle', 'app:230', 'app:228']
 
         and: 'bundle installed from the manifest-current branches/main URL, with confirm'
-        bundleArgs.importUrl.endsWith('/bundle-artifacts/branches/main/mcp-libraries.zip')
+        bundleArgs.importUrl.endsWith('/bundle-artifacts/branches/main/mcp-libraries-owl.zip')
         bundleArgs.confirm == true
 
         and:
@@ -459,17 +459,17 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         enableDev()
         hubGet.register('/hub2/userAppTypes') { params ->
             groovy.json.JsonOutput.toJson([
-                [id: '228', name: 'MCP Rule Server', namespace: 'mcp'],
-                [id: '230', name: 'MCP Rule', namespace: 'mcp'],
-                [id: '231', name: 'MCP Extra', namespace: 'mcp']
+                [id: '228', name: 'MCP Rule Server Owl', namespace: 'mcpowl'],
+                [id: '230', name: 'MCP Rule Owl', namespace: 'mcpowl'],
+                [id: '231', name: 'MCP Extra', namespace: 'mcpowl']
             ])
         }
         // Manifest lists the SELF app first, then two non-self apps -- the tool must still emit them
         // non-self-first (in their manifest order: 230 then 231) and the self app (228) last.
         def apps = [
-            [name: 'MCP Rule Server', namespace: 'mcp', location: "${RAW}/main/hubitat-mcp-server.groovy".toString(), required: true, primary: true],
-            [name: 'MCP Rule', namespace: 'mcp', location: "${RAW}/main/hubitat-mcp-rule.groovy".toString(), required: true],
-            [name: 'MCP Extra', namespace: 'mcp', location: "${RAW}/main/mcp-extra.groovy".toString(), required: true]
+            [name: 'MCP Rule Server Owl', namespace: 'mcpowl', location: "${RAW}/main/hubitat-mcp-server.groovy".toString(), required: true, primary: true],
+            [name: 'MCP Rule Owl', namespace: 'mcpowl', location: "${RAW}/main/hubitat-mcp-rule.groovy".toString(), required: true],
+            [name: 'MCP Extra', namespace: 'mcpowl', location: "${RAW}/main/mcp-extra.groovy".toString(), required: true]
         ]
         nextManifestBody = manifest(BUNDLE_LIBS, apps)
         def calls = []
@@ -626,7 +626,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         def result = script.toolUpdatePackage([ref: 'main', confirm: true])
 
         then:
-        result.includes == ['mcp.McpRoomsLib']
+        result.includes == ['mcpowl.McpRoomsLib']
         result.success == true
     }
 
@@ -658,7 +658,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
 
         where:
         desc                      | location                                                              | base                  | ref    || expected
-        'canonical bundle'        | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries.zip' | 'https://example/raw' | 'feat' || 'https://example/raw/feat/bundles/mcp-libraries.zip'
+        'canonical bundle'        | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries-owl.zip' | 'https://example/raw' | 'feat' || 'https://example/raw/feat/bundles/mcp-libraries-owl.zip'
         'deeper relpath survives' | 'https://raw.githubusercontent.com/o/r/main/bundles/sub/x.zip'         | 'https://b'           | 'sha1' || 'https://b/sha1/bundles/sub/x.zip'
         'http scheme'             | 'http://raw.githubusercontent.com/o/r/main/hubitat-mcp-rule.groovy'    | 'https://b'           | 'main' || 'https://b/main/hubitat-mcp-rule.groovy'
         'top-level file'          | 'https://raw.githubusercontent.com/o/r/main/hubitat-mcp-server.groovy' | 'https://b'           | 'r2'   || 'https://b/r2/hubitat-mcp-server.groovy'
@@ -691,11 +691,11 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
 
         where:
         desc                       | location                                                                | ref        || expected
-        'branch ref'               | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries.zip' | 'feat/x'   || 'https://b/bundle-artifacts/branches/feat/x/mcp-libraries.zip'
-        'full-sha ref'             | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries.zip' | ('a' * 40) || "https://b/bundle-artifacts/shas/${'a' * 40}/mcp-libraries.zip".toString()
-        'short sha = branch path'  | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries.zip' | 'deadbee'  || 'https://b/bundle-artifacts/branches/deadbee/mcp-libraries.zip'
+        'branch ref'               | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries-owl.zip' | 'feat/x'   || 'https://b/bundle-artifacts/branches/feat/x/mcp-libraries-owl.zip'
+        'full-sha ref'             | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries-owl.zip' | ('a' * 40) || "https://b/bundle-artifacts/shas/${'a' * 40}/mcp-libraries-owl.zip".toString()
+        'short sha = branch path'  | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries-owl.zip' | 'deadbee'  || 'https://b/bundle-artifacts/branches/deadbee/mcp-libraries-owl.zip'
         '40 chars but NOT hex = branch path (predicate is hex-aware, not length-only)' \
-                                   | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries.zip' | ('g' * 40) || "https://b/bundle-artifacts/branches/${'g' * 40}/mcp-libraries.zip".toString()
+                                   | 'https://raw.githubusercontent.com/o/r/main/bundles/mcp-libraries-owl.zip' | ('g' * 40) || "https://b/bundle-artifacts/branches/${'g' * 40}/mcp-libraries-owl.zip".toString()
         'unusable location'        | 'not-a-real-url'                                                        | 'feat/x'   || null
     }
 
@@ -706,23 +706,23 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         nextHttpStatus = 200
         nextHttpBody = '866882'
         then:
-        script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries.zip')
+        script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries-owl.zip')
 
         when: 'the fetch throws (raw 404)'
         nextHttpThrow = new IllegalStateException('404: Not Found')
         then:
-        !script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries.zip')
+        !script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries-owl.zip')
 
         when: 'a 200 with a non-integer body (HTML error page, mis-routed content)'
         nextHttpThrow = null
         nextHttpBody = '<html>nope</html>'
         then:
-        !script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries.zip')
+        !script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries-owl.zip')
 
         when: 'a 200 with an EMPTY body (zero-length/truncated .size marker)'
         nextHttpBody = ''
         then:
-        !script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries.zip')
+        !script._bundleArtifactExists('https://b/bundle-artifacts/branches/x/mcp-libraries-owl.zip')
     }
 
     def "bundle leg prefers the bundle-artifacts zip when the artifact exists, with no freshness warning"() {
@@ -740,7 +740,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         then:
         result.success == true
         result.bundles[0].source == 'bundle-artifacts'
-        result.bundles[0].url == "${RAW}/bundle-artifacts/branches/feat/x/mcp-libraries.zip".toString()
+        result.bundles[0].url == "${RAW}/bundle-artifacts/branches/feat/x/mcp-libraries-owl.zip".toString()
         installedUrls == [result.bundles[0].url]
         result.bundleFreshnessWarning == null
     }
@@ -759,7 +759,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         then:
         result.success == true
         result.bundles[0].source == 'manifest-current'
-        result.bundles[0].url.endsWith('/bundle-artifacts/branches/main/mcp-libraries.zip')
+        result.bundles[0].url.endsWith('/bundle-artifacts/branches/main/mcp-libraries-owl.zip')
         result.bundleFreshnessWarning?.contains("CURRENT MAIN's bundle")
     }
 
@@ -778,7 +778,7 @@ class ToolUpdatePackageSpec extends ToolSpecBase {
         then: 'old refs keep the old behaviour: zip committed AT the ref, reanchored'
         result.success == true
         result.bundles[0].source == 'committed-at-ref'
-        result.bundles[0].url.endsWith('/feat/x/bundles/mcp-libraries.zip')
+        result.bundles[0].url.endsWith('/feat/x/bundles/mcp-libraries-owl.zip')
         result.bundleFreshnessWarning?.contains('COMMITTED at the ref')
     }
 

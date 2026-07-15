@@ -1,4 +1,4 @@
-library(name: "McpSelfAdminLib", namespace: "mcp", author: "kingpanther13", description: "MCP self-administration tool implementations (hub_update_mcp_settings + the hub_update_package Developer Mode deploy) for the MCP Rule Server; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
+library(name: "McpSelfAdminLib", namespace: "mcpowl", author: "kingpanther13", description: "MCP self-administration tool implementations (hub_update_mcp_settings + the hub_update_package Developer Mode deploy) for the MCP Rule Server Owl; #include'd by the main app. Gateway entries and dispatch cases stay in the app; tool definitions, implementations, domain helpers, and per-tool metadata live here.")
 
 def toolUpdateMcpSettings(args) {
     // IllegalArgumentException (not IllegalStateException) so the dispatcher routes this
@@ -366,7 +366,7 @@ private coerceSettingValue(String key, value, String type) {
 // mirrors packageManifest.json's location (.../Hubitat-local-MCP-server/main/hubitat-mcp-server.groovy).
 // Overridable per call via baseUrl for forks / CI branches on a different remote.
 def getPackageSourceBase() {
-    return "https://raw.githubusercontent.com/kingpanther13/Hubitat-local-MCP-server"
+    return "https://raw.githubusercontent.com/hansenjacobs/Hubitat-local-MCP-server"
 }
 
 // Re-anchor a packageManifest.json item location to the deploy `ref`. Manifest locations
@@ -447,7 +447,7 @@ def _resolveSelfAppClassId() {
         if (!responseText) return null
         def parsed = new groovy.json.JsonSlurper().parseText(responseText)
         if (!(parsed instanceof List)) return null
-        def match = parsed.find { it?.namespace == "mcp" && it?.name == "MCP Rule Server" }
+        def match = parsed.find { it?.namespace == "mcpowl" && it?.name == "MCP Rule Server Owl" }
         return match?.id?.toString()
     } catch (Exception e) {
         // Reached from the code-update path too (not just hub_update_package); keep the label neutral.
@@ -616,7 +616,7 @@ def toolUpdatePackage(args) {
         }
         plannedApps << [
             name: a?.name, namespace: a?.namespace, classId: classId, url: url,
-            isSelf: (a?.namespace == "mcp" && a?.name == "MCP Rule Server")
+            isSelf: (a?.namespace == "mcpowl" && a?.name == "MCP Rule Server Owl")
         ]
     }
     // Non-self apps first, the self app last (so the self recompile is the final act).

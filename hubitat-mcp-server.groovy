@@ -1,5 +1,5 @@
 /**
- * MCP Rule Server for Hubitat
+ * MCP Rule Server Owl for Hubitat
  *
  * A native MCP (Model Context Protocol) server that runs directly on Hubitat
  * with a built-in custom rule engine for creating automations via Claude.
@@ -11,21 +11,21 @@
  * 2. Paste this code and click Save
  * 3. Click "OAuth" button, then "Enable OAuth in App"
  * 4. Save again
- * 5. Add MCP Rule (child app) code as well
- * 6. Go to Apps > Add User App > MCP Rule Server
+ * 5. Add MCP Rule Owl (child app) code as well
+ * 6. Go to Apps > Add User App > MCP Rule Server Owl
  * 7. Select devices to expose, click Done
  * 8. Open app to get endpoint URL with access token
  */
 
 definition(
-    name: "MCP Rule Server",
-    namespace: "mcp",
+    name: "MCP Rule Server Owl",
+    namespace: "mcpowl",
     author: "kingpanther13",
-    description: "MCP Server with Custom Rule Engine for Hubitat",
+    description: "Owl MCP Server with Custom Rule Engine for Hubitat",
     category: "Automation",
     iconUrl: "",
     iconX2Url: "",
-    oauth: [displayName: "MCP Rule Server", displayLink: ""],
+    oauth: [displayName: "MCP Rule Server Owl", displayLink: ""],
     singleInstance: true
 )
 
@@ -34,91 +34,91 @@ definition(
 // (libraries/mcp-dashboards-lib.groovy), delivered to real hubs via the required HPM bundle (issue
 // #209 modularization). Gateway entries + dispatch cases stay in this file; defs + impls + per-tool
 // metadata live in the library.
-#include mcp.McpDashboardsLib
+#include mcpowl.McpDashboardsLib
 
 // issue #209 modularization: room-management tool implementations live in the McpRoomsLib
 // library (libraries/mcp-rooms-lib.groovy), delivered to real hubs by the required HPM bundle
 // and installable on the fly via hub_update_package. The gateway entries and dispatch cases stay
 // in this file; the tool definitions (_getAllToolDefinitions_partRooms) and impl methods live in
 // the library. First real module of the split.
-#include mcp.McpRoomsLib
+#include mcpowl.McpRoomsLib
 
 // issue #209 modularization: bundle-management tool implementations (hub_list_bundles /
 // hub_delete_bundle / hub_export_bundle) live in the McpBundlesLib library
 // (libraries/mcp-bundles-lib.groovy). New tools authored library-first -- their gateway entries
 // and dispatch cases stay in this file; the tool definitions (_getAllToolDefinitions_partBundles)
 // and impl methods live in the library.
-#include mcp.McpBundlesLib
+#include mcpowl.McpBundlesLib
 
 // issue #209 modularization: Visual Rules Builder tool implementations (hub_get_visual_rule /
 // hub_set_visual_rule / hub_delete_visual_rule) live in the McpVisualRulesLib library
 // (libraries/mcp-visual-rules-lib.groovy), authored library-first. The gateway entries
 // and dispatch cases stay in this file; the tool definitions
 // (_getAllToolDefinitions_partVisualRules) and impl methods live in the library.
-#include mcp.McpVisualRulesLib
+#include mcpowl.McpVisualRulesLib
 
 // File Manager tools (issue #209 modularization). Gateway entries and dispatch
 // cases stay in this file; definitions + impls + per-tool metadata live in the library.
-#include mcp.McpFilesLib
+#include mcpowl.McpFilesLib
 
 // Item-backup tools (issue #209 modularization). The shared backupItemSource
 // primitive stays in this file (used by code management + native RM too).
-#include mcp.McpItemBackupsLib
+#include mcpowl.McpItemBackupsLib
 
 // Debug-log + bug-report tools (issue #209 modularization). The logging ENGINE
 // (mcpLog/mcpLogError/initDebugLogs/shouldLog) is generic spine and stays in this file.
-#include mcp.McpDebugLoggingLib
+#include mcpowl.McpDebugLoggingLib
 
 // Diagnostics + maintenance tools (issue #209 modularization). Captured-state
 // accessors move too -- the rule child app reaches them via parent.* dispatch,
 // which resolves on the compiled class regardless of source file.
-#include mcp.McpDiagnosticsLib
+#include mcpowl.McpDiagnosticsLib
 
 // Hub system tools (issue #209 modularization): info, modes, HSM, backup, power,
 // update check. currentVersion() stays in this file (release-bot bump anchor).
-#include mcp.McpSystemLib
+#include mcpowl.McpSystemLib
 
 // Device tools (issue #209 modularization): reads, commands, history, update,
 // delete. findDevice/getSelectedDevices stay in this file (generic spine).
-#include mcp.McpDevicesLib
+#include mcpowl.McpDevicesLib
 
 // Virtual-device tools (issue #209 modularization). hub_list_devices'
 // filter=virtual path routes into this library's toolListVirtualDevices.
-#include mcp.McpVirtualDevicesLib
+#include mcpowl.McpVirtualDevicesLib
 
 // Hub variable + connector tools (issue #209 modularization). The subscription
 // handlers move too: string-literal subscribe()/schedule() handler names resolve
 // on the compiled class after the #include paste (AGENTS.md library notes).
-#include mcp.McpVariablesLib
+#include mcpowl.McpVariablesLib
 
 // Legacy custom-rule engine tools (issue #209 modularization). The child app
 // (hubitat-mcp-rule.groovy) and the shared validation functions stay in place.
-#include mcp.McpCustomRulesLib
+#include mcpowl.McpCustomRulesLib
 
 // Code-management tools (issue #209 modularization): apps, drivers, libraries
 // CRUD + source reads + app-config introspection. backupItemSource and the
 // URL-fetch helpers stay in this file (shared across domains).
-#include mcp.McpCodeManagementLib
+#include mcpowl.McpCodeManagementLib
 
 // HPM package tools (issue #209 modularization).
-#include mcp.McpHpmLib
+#include mcpowl.McpHpmLib
 
 // MCP self-admin tools (issue #209 modularization): settings updates + the
 // Developer Mode package deploy.
-#include mcp.McpSelfAdminLib
+#include mcpowl.McpSelfAdminLib
 
 // App cloner / export / import tools (issue #209 modularization). Closure-free
 // and separable from the native-RM wizard cluster (now in McpNativeRulesLib).
-#include mcp.McpAppClonerLib
+#include mcpowl.McpAppClonerLib
 
 // Discovery tools (issue #209 modularization): BM25 tool search + the tool-guide
 // dispatcher. getToolGuideSections() content stays in this file (sandbox-lint's
 // guide-pointer/TOOL_GUIDE.md parity checks anchor on it).
-#include mcp.McpDiscoveryLib
+#include mcpowl.McpDiscoveryLib
 // Native Rule Machine + classic-app tools (issue #209): the RM 5.1 wizard authoring
 // surface (hub_set_rule) + native-app CRUD. The shared classic-dynamicPage wizard
 // primitives stay in this file (used by other libraries).
-#include mcp.McpNativeRulesLib
+#include mcpowl.McpNativeRulesLib
 
 preferences {
     page(name: "mainPage")
@@ -128,7 +128,7 @@ preferences {
 }
 
 def mainPage() {
-    dynamicPage(name: "mainPage", title: "MCP Rule Server", install: true, uninstall: true) {
+    dynamicPage(name: "mainPage", title: "MCP Rule Server Owl", install: true, uninstall: true) {
         section("MCP Endpoint") {
             if (!state.accessToken) {
                 paragraph "Click 'Done' to generate access token, then reopen app to see endpoint URLs."
@@ -140,7 +140,7 @@ def mainPage() {
                 paragraph "<b>App ID:</b> ${app.id}"
                 paragraph "<b>Version:</b> ${currentVersion()}"
                 if (state.updateCheck?.updateAvailable) {
-                    paragraph "<b style='color: orange;'>&#9888; Update available: v${state.updateCheck.latestVersion}</b> (you have v${currentVersion()}). Update via <a href='https://github.com/kingpanther13/Hubitat-local-MCP-server' target='_blank'>GitHub</a> or Hubitat Package Manager."
+                    paragraph "<b style='color: orange;'>&#9888; Update available: v${state.updateCheck.latestVersion}</b> (you have v${currentVersion()}). Update via <a href='https://github.com/hansenjacobs/Hubitat-local-MCP-server' target='_blank'>GitHub</a> or Hubitat Package Manager."
                 }
                 href name: "regenerateToken", page: "confirmRegenerateTokenPage",
                      title: "Regenerate access token",
@@ -244,7 +244,7 @@ def mainPage() {
             }
 
             // Child app to add new rules
-            app(name: "rules", appName: "MCP Rule", namespace: "mcp", title: "+ Add New Rule", multiple: true)
+            app(name: "rules", appName: "MCP Rule Owl", namespace: "mcpowl", title: "+ Add New Rule", multiple: true)
         }
 
         section("Settings") {
